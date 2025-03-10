@@ -1,0 +1,43 @@
+.logo {
+    width: 200px; /* Adjust size */
+    height: auto; /* Keeps proportions */
+    margin: 20px auto; /* Adds space & centers */
+    display: block; /* Centers when using auto margin */
+}
+
+.header {
+    display: flex;
+    align-items: center;  /* Aligns logos and title vertically */
+    justify-content: center;  /* Centers everything horizontally */
+    gap: 20px;  /* Adds spacing between logos and title */
+    padding: 15px;
+    background-color: #f8f8f8; /* Optional background color */
+}
+
+.header-logo {
+    width: 80px;  /* Adjust size as needed */
+    height: auto;
+}
+
+.header-title {
+    font-size: 2rem;  /* Adjust text size */
+    text-align: center;
+    font-weight: bold;
+}
+.page-title {
+    font-size: 2rem;  /* Adjust text size */
+    text-align: center;
+    font-weight: bold;
+}
+.page-logo {
+    width: 80px;  /* Adjust size as needed */
+    height: auto;
+}
+.para-center{
+    font-size: 1rem;  /* Adjust text size */
+    text-align: center;
+}
+.footer-center{
+    font-size: 1rem;  /* Adjust text size */
+    text-align: center;
+}

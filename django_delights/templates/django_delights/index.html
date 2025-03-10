@@ -1,8 +1,14 @@
 {% extends 'django_delights/base.html' %}
+{% load static %}
 
 {% block title %}Django Delights Welcome{% endblock %}
 
 {% block content %}
-    <h1>Welcome to Django Delights</h1>
-    <p>Home of the most programically perfect treats I can think of in about 5 mins</p>
+<section class="header">
+    <img src="{% static 'django_delights/cupcake_image.jpeg' %}" alt="cupcake image" class="page-logo">
+    <h1 class="page-title">Welcome to Django Delights</h1>
+    <img src="{% static 'django_delights/tart_image.png' %}" alt="tart image" class="page-logo">
+</section>
+<p class="para-center">Home of the most programically perfect treats I can think of in about 5 mins</p>
+
 {% endblock %}

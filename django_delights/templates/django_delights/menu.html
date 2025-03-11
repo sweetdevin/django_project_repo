@@ -1,0 +1,17 @@
+{% extends 'django_delights/base.html' %}
+
+{% block title %}Menu{% endblock %}
+
+{% block content %}
+    <h2>Our Menu</h2>
+    <ul>
+        {% for item in menu_list %}
+            <li>
+                <strong>{{ item.name }}</strong> - ${{ item.price }}<br>
+                <em>{{ item.blerb }}</em>
+            </li>
+        {% empty %}
+            <p>No menu items available.</p>
+        {% endfor %}
+    </ul>
+{% endblock %}

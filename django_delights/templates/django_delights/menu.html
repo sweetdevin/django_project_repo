@@ -13,5 +13,6 @@
         {% empty %}
             <p>No menu items available.</p>
         {% endfor %}
+        <a class="button" href="{% url 'menu_add' %}">add item</a>
     </ul>
 {% endblock %}

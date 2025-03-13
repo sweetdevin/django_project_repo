@@ -1,0 +1,13 @@
+{% extends 'django_delights/base.html' %}
+
+{% block title %}Add Menu Item{% endblock %}
+
+{% block content %}
+    <h2>Add a New Menu Item</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Item</button>
+    </form>
+    <a href="{% url 'menu' %}">Back to Menu</a>
+{% endblock %}

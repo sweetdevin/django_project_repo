@@ -41,3 +41,14 @@
     font-size: 1rem;  /* Adjust text size */
     text-align: center;
 }
+.navbar {
+    background-color: peachpuff;
+}
+.navbar-brand {
+    background-color: gray;
+    color:rgb(18, 18, 18)
+}
+.button {
+    background-color: rgb(229, 145, 11);
+    text-shadow: 0cqmax;
+}

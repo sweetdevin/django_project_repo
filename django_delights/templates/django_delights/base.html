@@ -22,9 +22,10 @@
     <img src="{% static 'django_delights/django_logo.png' %}" alt="django_logo" class="header-logo">
 </header>
 
-    <nav class="navbar navbar-dark bg-dark">
+    <nav class="navbar">
         <div class="container">
-            <a class="navbar-brand" href="#">Django Delights</a>
+            <a class="navbar-brand" href="{% url 'index' %}">Django Delights</a>
+            <a class="navbar-brand" href="{% url 'menu' %}">Menu</a>
         </div>
     </nav>
 

@@ -1,0 +1,18 @@
+{% extends 'django_delights/base.html' %}
+
+{% block title %}inventory{% endblock %}
+
+{% block content %}
+    <h2>current inventory</h2>
+    <ul>
+        {% for item in ingredient_list %}
+            <li>
+                <strong>{{ item.name }}</strong> - {{ item.quantity }} {{item.units_of_measure}} <br>
+                <em>costs ${{ item.cost_per_unit }} per {{ item.units_of_measure }}</em>
+            </li>
+        {% empty %}
+            <p>Nothing in the pantry</p>
+        {% endfor %}
+        <a class="button">add item</a>
+    </ul>
+{% endblock %}

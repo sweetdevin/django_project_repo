@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 class Ingredient(models.Model):
     name = models.CharField(max_length=30)
-    inventory = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.DecimalField(max_digits=10, decimal_places=2)
     units_of_measure = models.CharField(max_length=50)
     cost_per_unit = models.DecimalField(max_digits=10, decimal_places=3)
 

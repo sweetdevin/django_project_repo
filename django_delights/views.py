@@ -43,10 +43,12 @@ class InventoryCreateUpdateView(FormView):
 
         if not created:
             item.quantity += quantity
+            if cost_per_unit > 0:
+                item.cost_per_unit = cost_per_unit
+            if units_of_measure != "???":
+                item.units_of_measure = units_of_measure
         else:
             item.quantity = quantity
-        if item.cost_per_unit != cost_per_unit and cost_per_unit != None:
-            item.cost_per_unit = cost_per_unit
 
         item.save()
         return redirect('inventory')

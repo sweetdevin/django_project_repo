@@ -1,0 +1,22 @@
+{% extends "django_delights/base.html" %}
+
+{% block content %}
+
+  <h2>{{ menu_item.name }}</h2>  
+  <p>Price: ${{ menu_item.price }}</p>
+  <p>Description: {{ menu_item.blerb }}</p>
+  <p>Cost to make: {{ total_cost }}</p>
+  <p>Profit: ${{ profit_per_dish }}</p>
+
+  <h3>Ingredients:</h3>
+  <ul>
+    {% for ingredient in ingredients %}
+      <li>{{ ingredient.item.name }} - {{ ingredient.amount }} {{ ingredient.item.units_of_measure }}</li>
+    {% empty %}
+      <p>No ingredients added yet.</p>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'recipe_item_add' menu_item.pk %}">Add Ingredient</a>
+
+
+{% endblock %}

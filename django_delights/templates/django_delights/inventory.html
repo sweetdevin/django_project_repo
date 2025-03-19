@@ -13,6 +13,6 @@
         {% empty %}
             <p>Nothing in the pantry</p>
         {% endfor %}
-        <a class="button">add item</a>
+        <a class="button" href="{% url 'inventory_add' %}">add item</a>
     </ul>
 {% endblock %}

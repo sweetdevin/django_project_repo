@@ -33,6 +33,16 @@
                 <a class="navbar-brand" href="{% url 'login' %}">Login</a>
                 <a class="navbar-brand" href="{% url 'register' %}">Register</a>
             {% endif %}
+            {% if messages %}
+            <div class="messages">
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            </div>
+            {% endif %}
+
         </div>
     </nav>
 

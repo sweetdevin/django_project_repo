@@ -52,3 +52,23 @@
     background-color: rgb(229, 145, 11);
     text-shadow: 0cqmax;
 }
+.messages {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    width: auto;
+    max-width: 300px;
+}
+
+.alert {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+.alert-success { background-color: #4CAF50; } /* Green */
+.alert-error { background-color: #f44336; } /* Red */
+.alert-warning { background-color: #ff9800; } /* Orange */

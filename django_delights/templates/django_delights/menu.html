@@ -10,6 +10,12 @@
                 <strong>{{ item.name }}</strong> - ${{ item.price }}<br>
                 <em>{{ item.blerb }}</em>
                 <a class="button" href="{% url 'menu_detail' item.pk %}">details</a>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="item" value="{{ item.id }}">
+                    {{ form.quantity }}
+                    <button type="submit">Purchase</button>
+                </form>
             </li>
         {% empty %}
             <p>No menu items available.</p>

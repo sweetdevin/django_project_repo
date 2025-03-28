@@ -27,5 +27,4 @@ class user(models.Model):
 
 class purchases(models.Model):
     item = models.ForeignKey(menu_item, on_delete=models.SET_DEFAULT, default='OLD MENU ITEM')
-    time_stamp = models.DateTimeField()
-    user = models.ForeignKey(user, on_delete=models.CASCADE)
+    quantity = models.IntegerField()

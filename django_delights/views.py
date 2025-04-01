@@ -25,10 +25,12 @@ class menu_view(FormMixin, ListView):
         else:
             return self.form_invalid(form) 
         
-    def form_valid(self, form):
-        response = super().form_valid(form) 
+    def form_valid(self, form): 
+        purchase = form.save(commit=False)
+        purchase.save()
         messages.success(self.request, f"✅ {form.cleaned_data['quantity']}x {form.cleaned_data['item']} purchased successfully!")
-        return response
+
+        return super().form_valid(form) 
 
     def form_invalid(self, form):
         messages.error(self.request, "❌ There was an error processing your purchase. Please try again.")
@@ -121,3 +123,33 @@ class recipe_item_createview(CreateView):
 
     def get_success_url(self):
         return reverse("menu_detail", kwargs={"pk": self.kwargs["pk"]})
+    
+class purchase_view(ListView):
+    model=models.purchases
+    template_name='django_delights/purchase_list.html'
+    context_object_name='purchase_list'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        purchase_with_price = []
+        grand_total_cost = 0
+        grand_total_income =0
+        grand_total_profit = 0
+
+        for purchase in context['purchase_list']:
+            menu_object = purchase.item
+            total_price = menu_object.price * purchase.quantity
+            ingredient_list = models.recipe_item.objects.filter(dish=menu_object)
+
+            total_cost = sum(ingredient.amount * ingredient.item.cost_per_unit for ingredient in ingredient_list)
+            total_profit = total_price - total_cost
+            purchase_with_price.append({'total_price':total_price, 'total_cost':total_cost, 'total_profit':total_profit,
+                                        'menu_item': menu_object, 'quantity':purchase.quantity})
+            context['purchase_with_price'] = purchase_with_price
+            grand_total_cost += total_cost
+            grand_total_profit += total_profit
+            grand_total_income += total_price
+        context['grand_total_cost'] = grand_total_cost
+        context['grand_total_income'] = grand_total_income
+        context['grand_total_profit'] = grand_total_profit
+        return context

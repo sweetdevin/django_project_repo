@@ -1,0 +1,18 @@
+{% extends 'django_delights/base.html' %}
+
+{% block title %}purchases{% endblock %}
+
+{% block content %}
+    <h2 class="header">Purchases</h2>
+    {% for item in purchase_with_price %}
+    <li>{{ item.menu_item }}, {{ item.quantity }}, total price {{ item.total_price }}, total cost {{ item.total_cost }}, profit {{ item.total_profit }}</li>
+    {% empty %}
+    <p>Context is empty!</p>
+    {% endfor %}
+
+    <h3 class="header"> grand totals</h3>
+    <li>total income: ${{ grand_total_income }}</li>
+    <li>total expense: ${{ grand_total_cost }}</li>
+    <li>total profit: ${{ grand_total_profit }}</li>
+
+{% endblock %}

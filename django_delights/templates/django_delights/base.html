@@ -27,12 +27,23 @@
             <a class="navbar-brand" href="{% url 'index' %}">Django Delights</a>
             <a class="navbar-brand" href="{% url 'menu' %}">Menu</a>
             <a class="navbar-brand" href="{% url 'inventory' %}">inventory</a>
+            <a class="navbar-brand" href="{% url 'purchase_view' %}">purchases</a>
             {% if user.is_authenticated %}
                 <a class="navbar-brand" href="{% url 'logout' %}">Logout</a>
             {% else %}
                 <a class="navbar-brand" href="{% url 'login' %}">Login</a>
                 <a class="navbar-brand" href="{% url 'register' %}">Register</a>
             {% endif %}
+            {% if messages %}
+            <div class="messages">
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            </div>
+            {% endif %}
+
         </div>
     </nav>
 

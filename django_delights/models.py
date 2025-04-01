@@ -22,10 +22,7 @@ class recipe_item(models.Model):
     item = models.ForeignKey(Ingredient, on_delete=models.PROTECT)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 
-class user(models.Model):
-    name = models.CharField(max_length=50)
 
 class purchases(models.Model):
     item = models.ForeignKey(menu_item, on_delete=models.SET_DEFAULT, default='OLD MENU ITEM')
-    time_stamp = models.DateTimeField()
-    user = models.ForeignKey(user, on_delete=models.CASCADE)
+    quantity = models.IntegerField()

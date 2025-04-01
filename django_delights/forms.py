@@ -36,3 +36,9 @@ class recipe_form(forms.ModelForm):
     class Meta:
         model=models.recipe_item
         fields = ['item', 'amount',]
+
+class purchase_form(forms.ModelForm):
+    class Meta:
+        model=models.purchases
+        fields = ['item', 'quantity']
+

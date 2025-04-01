@@ -12,5 +12,6 @@ urlpatterns = [
     path('logout/', user_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('register/', views.register, name='register'),
     path('menu/<pk>/', views.Menu_detail_view.as_view(), name='menu_detail'),
-    path('menu/<pk>/add', views.recipe_item_createview.as_view(), name='recipe_item_add')
+    path('menu/<pk>/add', views.recipe_item_createview.as_view(), name='recipe_item_add'),
+    path('purchases/', views.purchase_view.as_view(), name='purchase_view'),
 ]

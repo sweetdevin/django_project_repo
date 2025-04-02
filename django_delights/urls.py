@@ -13,5 +13,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('menu/<pk>/', views.Menu_detail_view.as_view(), name='menu_detail'),
     path('menu/<pk>/add', views.recipe_item_createview.as_view(), name='recipe_item_add'),
+    path('menu/<pk>/update', views.Menu_item_update_view.as_view(), name='menu_update'),
+    path('menu/<pk>/delete', views.Menu_item_delete_view.as_view(), name='menu_delete'),
     path('purchases/', views.purchase_view.as_view(), name='purchase_view'),
 ]

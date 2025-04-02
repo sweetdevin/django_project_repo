@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, FormView, FormMixin
+from django.views.generic.edit import CreateView, FormView, FormMixin, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import login
 from django.contrib import messages
@@ -40,6 +40,17 @@ class Menu_item_create_view(CreateView):
     model=models.menu_item
     template_name='django_delights/menu_form.html'
     fields=['name', 'price', 'blerb']
+    success_url=reverse_lazy('menu')
+
+class Menu_item_update_view(UpdateView):
+    model=models.menu_item
+    template_name='django_delights/menu_update_form.html'
+    fields=['name', 'price', 'blerb']
+    success_url=reverse_lazy('menu')
+
+class Menu_item_delete_view(DeleteView):
+    model=models.menu_item
+    template_name = 'django_delights/menu_delete.html'
     success_url=reverse_lazy('menu')
 
 class Menu_detail_view(DetailView):

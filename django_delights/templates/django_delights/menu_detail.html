@@ -2,7 +2,7 @@
 
 {% block content %}
 
-  <h2>{{ menu_item.name }}</h2>  
+  <h2>{{ menu_item.name }} <a href="{% url 'menu_update' menu_item.pk %}">update item</a> <a href="{% url 'menu_delete' menu_item.pk %}">delete item</a></h2>
   <p>Price: ${{ menu_item.price }}</p>
   <p>Description: {{ menu_item.blerb }}</p>
   <p>Cost to make: {{ total_cost }}</p>
@@ -11,7 +11,9 @@
   <h3>Ingredients:</h3>
   <ul>
     {% for ingredient in ingredients %}
-      <li>{{ ingredient.item.name }} - {{ ingredient.amount }} {{ ingredient.item.units_of_measure }}</li>
+      <li>{{ ingredient.item.name }} - {{ ingredient.amount }} {{ ingredient.item.units_of_measure }}
+        <a href="{% url 'recipe_update' ingredient.pk %}">Update</a> <a href="{% url 'recipe_delete' ingredient.pk %}">Delete</a>
+      </li>
     {% empty %}
       <p>No ingredients added yet.</p>
     {% endfor %}

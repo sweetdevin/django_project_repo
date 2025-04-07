@@ -13,5 +13,12 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('menu/<pk>/', views.Menu_detail_view.as_view(), name='menu_detail'),
     path('menu/<pk>/add', views.recipe_item_createview.as_view(), name='recipe_item_add'),
+    path('menu/<pk>/update', views.Menu_item_update_view.as_view(), name='menu_update'),
+    path('menu/<pk>/delete', views.Menu_item_delete_view.as_view(), name='menu_delete'),
     path('purchases/', views.purchase_view.as_view(), name='purchase_view'),
+    path('recipe/<pk>/update', views.recipe_update_view.as_view(), name='recipe_update'),
+    path('recipe/<pk>/delete', views.recipe_delete_view.as_view(), name='recipe_delete'),
+    path('inventory/<pk>/delete', views.inventory_deleteview.as_view(), name='inventory_delete'),
+    path('purchases/<pk>/update', views.purchase_update_view.as_view(), name='purchase_update'),
+    path('purchase/<pk>/delete', views.purchase_delete_view.as_view(), name='purchase_delete'),
 ]

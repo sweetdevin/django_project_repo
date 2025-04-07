@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, FormView, FormMixin
+from django.views.generic.edit import CreateView, FormView, FormMixin, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from . import models
 from . import forms
@@ -36,17 +37,29 @@ class menu_view(FormMixin, ListView):
         messages.error(self.request, "❌ There was an error processing your purchase. Please try again.")
         return self.render_to_response(self.get_context_data(form=form))
     
-class Menu_item_create_view(CreateView):
+class Menu_item_create_view(LoginRequiredMixin, CreateView):
     model=models.menu_item
     template_name='django_delights/menu_form.html'
     fields=['name', 'price', 'blerb']
     success_url=reverse_lazy('menu')
+    login_url = 'login'
+class Menu_item_update_view(LoginRequiredMixin, UpdateView):
+    model=models.menu_item
+    template_name='django_delights/menu_update_form.html'
+    fields=['name', 'price', 'blerb']
+    success_url=reverse_lazy('menu')
+    login_url = 'login'
 
-class Menu_detail_view(DetailView):
+class Menu_item_delete_view(LoginRequiredMixin, DeleteView):
+    model=models.menu_item
+    template_name = 'django_delights/menu_delete.html'
+    success_url=reverse_lazy('menu')
+    login_url = 'login'
+class Menu_detail_view(LoginRequiredMixin, DetailView):
     model=models.menu_item
     template_name='django_delights/menu_detail.html'
     context_object_name='menu_item'
-
+    login_url = 'login'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         ingredient_list = models.recipe_item.objects.filter(dish=self.object)
@@ -64,15 +77,15 @@ class Menu_detail_view(DetailView):
 
         return context
 
-class ingredient_view(ListView):
+class ingredient_view(LoginRequiredMixin, ListView):
     model=models.Ingredient
     template_name='django_delights/inventory.html'
     context_object_name='ingredient_list'
-
-class InventoryCreateUpdateView(FormView):
+    login_url = 'login'
+class InventoryCreateUpdateView(LoginRequiredMixin, FormView):
     template_name = 'django_delights/inventory_form.html'
     form_class = forms.inventory_form
-
+    login_url = 'login'
     def form_valid(self, form):
         name = form.cleaned_data['name']
         quantity = form.cleaned_data['quantity']
@@ -96,7 +109,11 @@ class InventoryCreateUpdateView(FormView):
 
         item.save()
         return redirect('inventory')
-    
+class inventory_deleteview(LoginRequiredMixin, DeleteView):
+    model=models.Ingredient
+    template_name='django_delights/inventory_delete.html'
+    success_url='inventory'
+    login_url = 'login'
 def register(request):
     if request.method == 'POST':
         form = forms.UserRegisterForm(request.POST)
@@ -111,11 +128,11 @@ def register(request):
     
     return render(request, 'users/register.html', {'form': form})
 
-class recipe_item_createview(CreateView):
+class recipe_item_createview(LoginRequiredMixin, CreateView):
     model =models.recipe_item
     template_name = 'django_delights/recipe_form.html'
     form_class = forms.recipe_form
-    
+    login_url = 'login'
     def form_valid(self, form):
         dish = get_object_or_404(models.menu_item, pk=self.kwargs["pk"])
         form.instance.dish = dish  # Set the recipe before saving
@@ -123,12 +140,25 @@ class recipe_item_createview(CreateView):
 
     def get_success_url(self):
         return reverse("menu_detail", kwargs={"pk": self.kwargs["pk"]})
+class recipe_update_view(LoginRequiredMixin, UpdateView):
+    model=models.recipe_item
+    template_name = 'django_delights/recipe_update.html'
+    fields=['item', 'amount']
+    login_url = 'login'
+    def get_success_url(self):
+        return reverse("menu_detail", kwargs={"pk": self.object.dish.pk})
     
-class purchase_view(ListView):
+class recipe_delete_view(LoginRequiredMixin, DeleteView):
+    model=models.recipe_item
+    template_name = 'django_delights/recipe_delete.html'
+    login_url = 'login'
+    def get_success_url(self):
+        return reverse("menu_detail", kwargs={"pk": self.object.dish.pk})    
+class purchase_view(LoginRequiredMixin, ListView):
     model=models.purchases
     template_name='django_delights/purchase_list.html'
     context_object_name='purchase_list'
-
+    login_url = 'login'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         purchase_with_price = []
@@ -141,10 +171,11 @@ class purchase_view(ListView):
             total_price = menu_object.price * purchase.quantity
             ingredient_list = models.recipe_item.objects.filter(dish=menu_object)
 
-            total_cost = sum(ingredient.amount * ingredient.item.cost_per_unit for ingredient in ingredient_list)
+            cost_per = sum(ingredient.amount * ingredient.item.cost_per_unit for ingredient in ingredient_list)
+            total_cost = cost_per * purchase.quantity
             total_profit = total_price - total_cost
             purchase_with_price.append({'total_price':total_price, 'total_cost':total_cost, 'total_profit':total_profit,
-                                        'menu_item': menu_object, 'quantity':purchase.quantity})
+                                        'menu_item': menu_object, 'quantity':purchase.quantity, 'purchase_object':purchase})
             context['purchase_with_price'] = purchase_with_price
             grand_total_cost += total_cost
             grand_total_profit += total_profit
@@ -153,3 +184,14 @@ class purchase_view(ListView):
         context['grand_total_income'] = grand_total_income
         context['grand_total_profit'] = grand_total_profit
         return context
+class purchase_update_view(LoginRequiredMixin, UpdateView):
+    model=models.purchases
+    template_name = 'django_delights/purchase_update.html'
+    fields=['item', 'quantity']
+    success_url=reverse_lazy('purchase_view')
+    login_url = 'login'
+class purchase_delete_view(LoginRequiredMixin, DeleteView):
+    model=models.purchases
+    template_name = 'django_delights/purchase_delete.html'
+    success_url=reverse_lazy('purchases_view')
+    login_url = 'login'

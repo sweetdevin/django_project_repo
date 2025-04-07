@@ -5,7 +5,9 @@
 {% block content %}
     <h2 class="header">Purchases</h2>
     {% for item in purchase_with_price %}
-    <li>{{ item.menu_item }}, {{ item.quantity }}, total price {{ item.total_price }}, total cost {{ item.total_cost }}, profit {{ item.total_profit }}</li>
+    <li>{{ item.menu_item }}, {{ item.quantity }}, total price {{ item.total_price }}, total cost {{ item.total_cost }}, profit {{ item.total_profit }}
+        <a class="button" href="{% url 'purchase_update' item.purchase_object.pk %}"> update purchase</a> <a class="button" href="{% url 'purchase_delete' item.purchase_object.pk %}">delete purchase</a>
+    </li>
     {% empty %}
     <p>Context is empty!</p>
     {% endfor %}

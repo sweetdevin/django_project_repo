@@ -8,11 +8,12 @@
         {% for item in ingredient_list %}
             <li>
                 <strong>{{ item.name }}</strong> - {{ item.quantity }} {{item.units_of_measure}} <br>
-                <em>costs ${{ item.cost_per_unit }} per {{ item.units_of_measure }}</em>
+                <em>costs ${{ item.cost_per_unit }} per {{ item.units_of_measure }}</em> <a href="{% url 'inventory_delete' item.pk %}">Delete item</a>
             </li>
         {% empty %}
             <p>Nothing in the pantry</p>
         {% endfor %}
         <a class="button" href="{% url 'inventory_add' %}">add item</a>
     </ul>
+    <p>you can only delete an item if is not in any recipe</p>
 {% endblock %}

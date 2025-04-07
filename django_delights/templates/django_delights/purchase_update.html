@@ -1,0 +1,16 @@
+{% extends 'django_delights/base.html' %}
+
+{% block title %}update Purchase{% endblock %}
+
+
+{% block content %}
+
+<h2>update purchase</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">update</button>
+    </form>
+    <a href="{% url 'purchase_view' %}">Back to purchases</a>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'django_delights/base.html' %}
+
+{% block title %}update recipe item{% endblock %}
+
+
+{% block content %}
+
+<h2>update recipe item</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">update item</button>
+    </form>
+    <a href="{% url 'menu_detail' recipe_item.dish.pk %}">Back to Menu</a>
+
+{% endblock %}

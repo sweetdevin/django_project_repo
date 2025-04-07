@@ -1,0 +1,14 @@
+{% extends 'django_delights/base.html' %}
+
+{% block title %}delete purchase{% endblock %}
+
+{% block content %}
+
+<h2 class="header">are you sure you want to delete?</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">confirm delete</button>
+    </form>
+    <a href="{% url 'purchase_view' %}">Back to purchases</a>
+
+{% endblock %}

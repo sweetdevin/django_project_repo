@@ -8,7 +8,10 @@
         {% for item in ingredient_list %}
             <li>
                 <strong>{{ item.name }}</strong> - {{ item.quantity }} {{item.units_of_measure}} <br>
-                <em>costs ${{ item.cost_per_unit }} per {{ item.units_of_measure }}</em> <a href="{% url 'inventory_delete' item.pk %}">Delete item</a>
+                <em>costs ${{ item.cost_per_unit }} per {{ item.units_of_measure }}</em> 
+                {% if user.is_superuser %}
+                <a href="{% url 'inventory_delete' item.pk %}">Delete item</a>
+                {% endif %}
             </li>
         {% empty %}
             <p>Nothing in the pantry</p>

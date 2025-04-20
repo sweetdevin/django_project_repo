@@ -26,10 +26,16 @@
         <div class="container">
             <a class="navbar-brand" href="{% url 'index' %}">Django Delights</a>
             <a class="navbar-brand" href="{% url 'menu' %}">Menu</a>
-            <a class="navbar-brand" href="{% url 'inventory' %}">inventory</a>
             <a class="navbar-brand" href="{% url 'purchase_view' %}">purchases</a>
+            {% if user.is_staff %}
+                <a class="navbar-brand" href="{% url 'inventory' %}">inventory</a>
+            {% endif %}
             {% if user.is_authenticated %}
-                <a class="navbar-brand" href="{% url 'logout' %}">Logout</a>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button class="navbar-brand"  type="submit">Logout</button>
+                  </form>
+                  
             {% else %}
                 <a class="navbar-brand" href="{% url 'login' %}">Login</a>
                 <a class="navbar-brand" href="{% url 'register' %}">Register</a>

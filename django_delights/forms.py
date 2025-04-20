@@ -42,3 +42,7 @@ class purchase_form(forms.ModelForm):
         model=models.purchases
         fields = ['item', 'quantity']
 
+class review_form(forms.ModelForm):
+    class Meta:
+        model=models.review
+        fields = ['text']

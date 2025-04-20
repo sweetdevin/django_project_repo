@@ -2,17 +2,27 @@
 
 {% block content %}
 
-  <h2>{{ menu_item.name }} <a href="{% url 'menu_update' menu_item.pk %}">update item</a> <a href="{% url 'menu_delete' menu_item.pk %}">delete item</a></h2>
+  <h2>{{ menu_item.name }} {% if user.is_staff %}<a href="{% url 'menu_update' menu_item.pk %}">update item</a>{% endif %} {% if user.is_superuser %}<a href="{% url 'menu_delete' menu_item.pk %}">delete item</a>{% endif %}</h2>
   <p>Price: ${{ menu_item.price }}</p>
   <p>Description: {{ menu_item.blerb }}</p>
-  <p>Cost to make: {{ total_cost }}</p>
-  <p>Profit: ${{ profit_per_dish }}</p>
+  {% if user.is_superuser %}<p>Cost to make: {{ total_cost }}</p>
+  <p>Profit: ${{ profit_per_dish }}</p>{% endif %}
+  <h3>Reviews:</h3>
+  {% for review in review_list %}
+    <ul>
+      <li>{{ review.user.username }}</li>
+      <p>{{ review.text }}</p> {% if user.is_superuser or user == review.user %} <a href="{% url 'review_update' review.pk %}">update</a> <a href="{% url 'review_delete' review.pk %}">delete</a> {% endif %}
+    </ul>
+  {% empty %}
+    <p>no reviews yet</p>
+  {% endfor %}
+  <a href="{% url 'review_create' menu_item.pk %}">new review</a>
 
   <h3>Ingredients:</h3>
   <ul>
     {% for ingredient in ingredients %}
       <li>{{ ingredient.item.name }} - {{ ingredient.amount }} {{ ingredient.item.units_of_measure }}
-        <a href="{% url 'recipe_update' ingredient.pk %}">Update</a> <a href="{% url 'recipe_delete' ingredient.pk %}">Delete</a>
+        {% if user.is_staff %}<a href="{% url 'recipe_update' ingredient.pk %}">Update</a>{% endif %} {% if user.is_superuser %}<a href="{% url 'recipe_delete' ingredient.pk %}">Delete</a>{% endif %}
       </li>
     {% empty %}
       <p>No ingredients added yet.</p>

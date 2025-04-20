@@ -5,21 +5,25 @@
 {% block content %}
     <h2>Our Menu</h2>
     <ul>
-        {% for item in menu_list %}
+        {% for item in available_list %}
             <li>
-                <strong>{{ item.name }}</strong> - ${{ item.price }}<br>
-                <em>{{ item.blerb }}</em>
-                <a class="button" href="{% url 'menu_detail' item.pk %}">details</a>
+                <strong>{{ item.menu_item.name }}</strong> - ${{ item.menu_item.price }}<br>
+                <em>{{ item.menu_item.blerb }},</em> {{item.quantity_available}} units available
+                {% if user.is_authenticated %}
+                <a class="button" href="{% url 'menu_detail' item.menu_item.pk %}">details</a>
                 <form method="post">
                     {% csrf_token %}
-                    <input type="hidden" name="item" value="{{ item.id }}">
+                    <input type="hidden" name="item" value="{{ item.menu_item.id }}">
                     {{ form.quantity }}
                     <button type="submit">Purchase</button>
                 </form>
+                {% endif %}
             </li>
         {% empty %}
             <p>No menu items available.</p>
         {% endfor %}
+        {% if user.is_staff %}
         <a class="button" href="{% url 'menu_add' %}">add item</a>
+        {% endif %}
     </ul>
 {% endblock %}

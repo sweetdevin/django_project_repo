@@ -5,16 +5,22 @@
 {% block content %}
     <h2 class="header">Purchases</h2>
     {% for item in purchase_with_price %}
-    <li>{{ item.menu_item }}, {{ item.quantity }}, total price {{ item.total_price }}, total cost {{ item.total_cost }}, profit {{ item.total_profit }}
-        <a class="button" href="{% url 'purchase_update' item.purchase_object.pk %}"> update purchase</a> <a class="button" href="{% url 'purchase_delete' item.purchase_object.pk %}">delete purchase</a>
+    <li>{{ item.menu_item }}, {{ item.quantity }}, total price {{ item.total_price }}, 
+        {% if user.is_superuser %}
+        total cost {{ item.total_cost }}, profit {{ item.total_profit }}
+        {% endif %}
+        {% if user.is_staff %}
+        <a class="button" href="{% url 'purchase_update' item.purchase_object.pk %}"> update purchase</a>{% endif %} {% if user.is_superuser %}<a class="button" href="{% url 'purchase_delete' item.purchase_object.pk %}">delete purchase</a>
+        {% endif %}
     </li>
     {% empty %}
     <p>Context is empty!</p>
     {% endfor %}
-
+    {% if user.is_superuser %}
     <h3 class="header"> grand totals</h3>
     <li>total income: ${{ grand_total_income }}</li>
     <li>total expense: ${{ grand_total_cost }}</li>
     <li>total profit: ${{ grand_total_profit }}</li>
+    {% endif %}
 
 {% endblock %}

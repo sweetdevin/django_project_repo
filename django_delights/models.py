@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Ingredient(models.Model):
@@ -26,3 +27,9 @@ class recipe_item(models.Model):
 class purchases(models.Model):
     item = models.ForeignKey(menu_item, on_delete=models.SET_DEFAULT, default='OLD MENU ITEM')
     quantity = models.IntegerField()
+
+class review(models.Model):
+    dish = models.ForeignKey(menu_item, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text= models.TextField()
+    
